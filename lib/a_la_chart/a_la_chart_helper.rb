@@ -2,13 +2,7 @@ module ALaChartHelper
   require "erb"
   
   def inline_chart_tag(chart_make, chart_style, args={})
-    output = chart_tag(chart_make, chart_style, args.merge(:inline => true))
-    
-    if ActionView::Base.xss_safe?
-      output.html_safe
-    else
-      output
-    end
+    chart_tag(chart_make, chart_style, args.merge(:inline => true))
   end
   
   def chart_tag(chart_make, chart_style, args={})
@@ -62,13 +56,7 @@ module ALaChartHelper
     chart_template = File.join(RAILS_ROOT, template) if !File.exists?(chart_template) && defined?(RAILS_ROOT)
     
     chart_template_erb = ERB.new(File.read(chart_template))
-    output = chart_template_erb.result(binding)
-    
-    if ActionView::Base.xss_safe?
-      output.html_safe
-    else
-      output
-    end
+    chart_template_erb.result(binding)
   end
   
   def encode_options(options)

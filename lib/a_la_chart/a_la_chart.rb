@@ -1,4 +1,8 @@
 module ALaChart
+  extend ActiveSupport::Concern
+  included do
+    extlib_inheritable_accessor(:_helpers) { Module.new }
+  end
   
   module HelperMethods
     def meta(the_case=nil)
@@ -87,10 +91,12 @@ module ALaChart
     end
   end
   
-  def self.included(base)
-    base.extend(ClassMethods)
-  end
-  
+  # Check out "included {}" and ActiveSupport::Concern rather than "ClassMethods" - then can
+  # "include ALaChart::InstanceMethods" directly in Controllers directly
+  # def self.included(base)
+  #   base.extend(ClassMethods)
+  # end
+
   module ClassMethods
     
     def a_la_chart
@@ -104,9 +110,9 @@ module ALaChart
       # TODO: Namespace this stuff??
       # :meta, 
       [:before, :data, :value, :set_chart].each do |method|
-        # TODO: swap this in Rails 3 and find a way to attach to helper
         # module_eval <<-end_eval
-        master_helper_module.module_eval <<-end_eval
+        # master_helper_module.module_eval <<-end_eval
+        _helpers.module_eval <<-end_eval
           def #{method}(*args, &block)                    # def data(*args, &block)
             controller.send(%(#{method}), *args, &block)  #   controller.send(%(data), *args, &block)
           end                                             # end
@@ -123,27 +129,27 @@ module ALaChart
     end
     
     def data(*attrs, &block)
-      options = Hash === attrs.last ? attrs.pop : {}
-      cases = attrs
+      # TODO: make this cooler
+      # options = Hash === args.last ? args.pop : {}
+      # version = args.last || ">= 0"
+      if attrs.size == 1
+        attrs = attrs[0]
+        if attrs.class == Hash
+          options = attrs
+        elsif attrs.class == Symbol || attrs.class == String
+          cases = [attrs]
+        end
+      elsif attrs.size > 1
+        if attrs[-1].class == Hash
+          cases = attrs[0...-1]
+          options = attrs[-1]
+        else
+          cases = attrs[0..-1]
+        end
+      end
       
-      # if attrs.size == 1
-      #   attrs = attrs[0]
-      #   if attrs.class == Hash
-      #     options = attrs
-      #   elsif attrs.class == Symbol || attrs.class == String
-      #     cases = [attrs]
-      #   end
-      # elsif attrs.size > 1
-      #   if attrs[-1].class == Hash
-      #     cases = attrs[0...-1]
-      #     options = attrs[-1]
-      #   else
-      #     cases = attrs[0..-1]
-      #   end
-      # end
-      # 
-      # cases ||= []
-      # options ||= {}
+      cases ||= []
+      options ||= {}
       
       if cases.blank?
         define_method("get_data") do
