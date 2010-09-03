@@ -1,6 +1,6 @@
 = a_la_chart
 
-* http://github.com/coderoshi/a_la_chart
+* http://github.com/mobi/a_la_chart
 
 == DESCRIPTION:
 
@@ -32,7 +32,7 @@ Set up the gem in your environment.rb
 
 OR - to install this directly as a Rails plugin (not recommended, but available):
 
-    script/plugin install git://github.com/coderoshi/a_la_chart.git
+    script/plugin install git://github.com/mobi/a_la_chart.git
 
 Once you have installed 'a la Chart', you can start creating charts immediately. Since Google Charts can function without any further install (it just hits a Google URL to generate an image inline), you can technically use 'a la Chart' (ALC) without any further install - but that's also kind of boring. If you need to use another supported charting framework, such as Fusion Charts or gRaphaël, you must install them locally, as per their normal install instructions. This generally means placing the required files (javascript, flash) in your project's /public directory, and linking to them via html header tags in your relevant /app/views/layouts files.
 
