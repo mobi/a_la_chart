@@ -28,6 +28,7 @@ module ALaChart
       return '' if key_field.blank?
       
       if key_field.class == Proc
+        # TODO: How to do this in the context of the controller?
         val = key_field.call(object)
       elsif key_field.class == Fixnum
         val = object[key_field] if object.respond_to?('[]')
@@ -101,10 +102,13 @@ module ALaChart
       self.before_filter(:provide_chart_data, :only => [:index, :show])
       
       # TODO: Namespace this stuff??
-      [:before, :data, :fields, :meta, :value, :set_chart].each do |method|
+      # :meta, 
+      [:before, :data, :value, :set_chart].each do |method|
+        # TODO: swap this in Rails 3 and find a way to attach to helper
+        # module_eval <<-end_eval
         master_helper_module.module_eval <<-end_eval
-          def #{method}(*args, &block)                    # def current_user(*args, &block)
-            controller.send(%(#{method}), *args, &block)  #   controller.send(%(current_user), *args, &block)
+          def #{method}(*args, &block)                    # def data(*args, &block)
+            controller.send(%(#{method}), *args, &block)  #   controller.send(%(data), *args, &block)
           end                                             # end
         end_eval
       end
@@ -119,24 +123,27 @@ module ALaChart
     end
     
     def data(*attrs, &block)
-      if attrs.size == 1
-        attrs = attrs[0]
-        if attrs.class == Hash
-          options = attrs
-        elsif attrs.class == Symbol || attrs.class == String
-          cases = [attrs]
-        end
-      elsif attrs.size > 1
-        if attrs[-1].class == Hash
-          cases = attrs[0...-1]
-          options = attrs[-1]
-        else
-          cases = attrs[0..-1]
-        end
-      end
+      options = Hash === attrs.last ? attrs.pop : {}
+      cases = attrs
       
-      cases ||= []
-      options ||= {}
+      # if attrs.size == 1
+      #   attrs = attrs[0]
+      #   if attrs.class == Hash
+      #     options = attrs
+      #   elsif attrs.class == Symbol || attrs.class == String
+      #     cases = [attrs]
+      #   end
+      # elsif attrs.size > 1
+      #   if attrs[-1].class == Hash
+      #     cases = attrs[0...-1]
+      #     options = attrs[-1]
+      #   else
+      #     cases = attrs[0..-1]
+      #   end
+      # end
+      # 
+      # cases ||= []
+      # options ||= {}
       
       if cases.blank?
         define_method("get_data") do
@@ -187,36 +194,36 @@ module ALaChart
       end
     end
     
-    def meta(*attrs)
-      if attrs.size == 1
-        attrs = attrs[0]
-        if attrs.class == Array
-          descriptions = attrs
-        elsif attrs.class == Hash
-          options = attrs
-        elsif attrs.class == Symbol || attrs.class == String
-          descriptions = [attrs]
-        end
-      elsif attrs.size == 2
-        descriptions = attrs[0]
-        if descriptions.class == Symbol || descriptions.class == String
-          descriptions = [descriptions]
-        end
-        options = attrs[1]
-      elsif attrs.size > 2
-        descriptions = attrs[0...-1]
-        options = attrs[-1]
-      end
-    
-      descriptions ||= []
-      options ||= {}
-    
-      # descriptions = descriptions.map{|d| d.to_sym }
-    
-      define_method("get_meta") do
-        # descriptions
-        options
-      end
-    end
+    # def meta(*attrs)
+    #   if attrs.size == 1
+    #     attrs = attrs[0]
+    #     if attrs.class == Array
+    #       descriptions = attrs
+    #     elsif attrs.class == Hash
+    #       options = attrs
+    #     elsif attrs.class == Symbol || attrs.class == String
+    #       descriptions = [attrs]
+    #     end
+    #   elsif attrs.size == 2
+    #     descriptions = attrs[0]
+    #     if descriptions.class == Symbol || descriptions.class == String
+    #       descriptions = [descriptions]
+    #     end
+    #     options = attrs[1]
+    #   elsif attrs.size > 2
+    #     descriptions = attrs[0...-1]
+    #     options = attrs[-1]
+    #   end
+    # 
+    #   descriptions ||= []
+    #   options ||= {}
+    # 
+    #   # descriptions = descriptions.map{|d| d.to_sym }
+    # 
+    #   define_method("get_meta") do
+    #     # descriptions
+    #     options
+    #   end
+    # end
   end
 end

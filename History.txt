@@ -1,3 +1,12 @@
+=== 0.1.8 2010-8-30
+* 1 enhancement
+  * now works with html_safe (for rails_xss and for Rails 3)
+
+=== 0.1.6 2010-2-22
+
+* 1 enhancement:
+  * added separate tooltip mapping to certain fusion charts
+
 === 0.1.4 2010-1-14
 
 * 1 bug fix:

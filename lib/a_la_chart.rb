@@ -1,5 +1,8 @@
-module ALaChart
-  VERSION = '0.1.5'
+# module ALaChart
+#   VERSION = '0.1.7'
+# end
+module ALAChart
+  autoload :VERSION, 'a_la_chart/version'
 end
 
 require File.join(File.dirname(__FILE__), 'a_la_chart', 'config')
