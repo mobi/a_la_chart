@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{a_la_chart}
-  s.version = "0.1.8"
+  s.version = "0.1.9"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Eric Redmond"]
@@ -54,7 +54,7 @@ Gem::Specification.new do |s|
      "lib/a_la_chart/config.rb",
      "lib/a_la_chart/version.rb"
   ]
-  s.homepage = %q{http://github.com/coderoshi/a_la_chart}
+  s.homepage = %q{http://github.com/mobi/a_la_chart}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{a_la_chart}
