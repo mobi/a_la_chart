@@ -13,7 +13,7 @@ begin
     s.rubyforge_project = "a_la_chart"
     s.summary = "a La Chart manages various types of charting implementations - from grabbing the data, to declaring how those values are mapped to the desired type of chart (pie, line, bar, etc)."
     s.email = "eric.redmond@gmail.com"
-    s.homepage = "http://github.com/coderoshi/a_la_chart"
+    s.homepage = "http://github.com/mobi/a_la_chart"
     s.description = "A framework for managing various types of charting implementations."
     s.authors = ['Eric Redmond']
     s.files =  FileList["[A-Z]*", "init.rb", "{lib}/**/*", "configs/**/*"]
