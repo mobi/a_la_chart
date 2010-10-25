@@ -96,9 +96,6 @@ module ALaChart
     def a_la_chart
       include ALaChart::InstanceMethods
       
-      # TODO: We should ensure this is for inherited_resources
-      self.respond_to(:chartxml, :chartjs, :chartjson) if defined?(self.respond_to)
-      
       self.before_filter(:provide_chart_data, :only => [:index, :show])
       
       # TODO: Namespace this stuff??

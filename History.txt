@@ -1,3 +1,7 @@
+=== 0.1.9 2010-10-19
+* 1 bug fix:
+  * IE wouldn't properly grab an html.haml file due to responds_to ordering
+
 === 0.1.8 2010-8-30
 * 1 enhancement
   * now works with html_safe (for rails_xss and for Rails 3)

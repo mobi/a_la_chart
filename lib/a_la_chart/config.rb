@@ -1,6 +1,5 @@
 module ALaChart
   module Config
-    
     # Internally, this config is represented as:
     #  config = {
     #    :fusion => {
@@ -25,31 +24,22 @@ module ALaChart
     def self.config
       unless defined?(@@data)
         require 'yaml'
-        
-        def self.symbolize_keys!(yaml_data)
-          if yaml_data.is_a?(Hash)
-            yaml_data.each do |k,v|
-              unless k.is_a?(Symbol)
-                yaml_data[k.to_sym] ||= yaml_data.delete(k)
-              end
-              if v.is_a?(Array)
-                v.each {|e| self.symbolize_keys!(e) }
-              else
-                self.symbolize_keys!(v)
-              end
-            end
-          end
+    
+        def self.recursive_symbolize_keys!(hash)
+          hash.symbolize_keys!
+          hash.values.select{|v| v.is_a?(Hash)}.each{|h| recursive_symbolize_keys!(h)}
         end
         
         @@data = {}
-        Dir.foreach(File.join(File.dirname(__FILE__), '..', '..', 'configs')) do |dir|
-          config_path = File.join(File.dirname(__FILE__), '..', '..', 'configs', dir, 'config.yml')
+
+        Dir.foreach(File.expand_path('../../../configs',  __FILE__)) do |dir|
+          config_path = File.expand_path("../../../configs/#{dir}/config.yml",  __FILE__)
           if File.exists?(config_path)
             make = dir.to_sym
             yaml_data = YAML.load_file(config_path)
             # Deep clone the yaml data
             @@data[make] = Marshal::load(Marshal.dump(yaml_data))
-            self.symbolize_keys!(@@data[make])
+            self.recursive_symbolize_keys!(@@data[make])
           end
         end
       end
@@ -59,6 +49,12 @@ module ALaChart
     def self.[](make)
       self.config[make.to_sym]
     end
+
+    def self.[]=(key, value)
+      self.config unless defined?(@@data) # init the config
+      @@data[key.to_sym] = value
+    end
+    
     
     def self.keys
       self.config.keys
