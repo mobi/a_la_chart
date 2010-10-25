@@ -77,13 +77,15 @@ module ALaChartHelper
   
   def decode_options(options_str)
     hash = Hash[ *(options_str.to_s.split(/[|~]/)) ]
+    converted = {}
     hash.each{|k,v|
-      val = hash.delete(k)
-      if val && k.class == String && !k.blank?
-        hash[CGI::unescape(k).to_sym] = CGI::unescape(val.to_s)
+      if v && k.class == String && !k.blank?
+        converted[CGI::unescape(k).to_sym] = CGI::unescape(v.to_s)
+      else
+        converted[k] = v
       end
     }
-    hash
+    converted
   end
   
   def color_palette(chart_make, chart_style=nil)

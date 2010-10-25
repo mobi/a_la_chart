@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{a_la_chart}
-  s.version = "0.1.9"
+  s.version = "0.1.10"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Eric Redmond"]
-  s.date = %q{2010-10-19}
+  s.date = %q{2010-10-25}
   s.description = %q{A framework for managing various types of charting implementations.}
   s.email = %q{eric.redmond@gmail.com}
   s.extra_rdoc_files = [
