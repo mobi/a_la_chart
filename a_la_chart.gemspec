@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{a_la_chart}
-  s.version = "0.1.8"
+  s.version = "0.1.9"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Eric Redmond"]
-  s.date = %q{2010-06-28}
+  s.date = %q{2010-09-23}
   s.description = %q{A framework for managing various types of charting implementations.}
   s.email = %q{eric.redmond@gmail.com}
   s.extra_rdoc_files = [
@@ -30,6 +30,7 @@ Gem::Specification.new do |s|
      "configs/fusion/v3_1/bar.xml.builder",
      "configs/fusion/v3_1/bullet.xml.builder",
      "configs/fusion/v3_1/column.xml.builder",
+     "configs/fusion/v3_1/combi_dy_2d.xml.builder",
      "configs/fusion/v3_1/funnel.xml.builder",
      "configs/fusion/v3_1/inline.html.erb",
      "configs/fusion/v3_1/line.xml.builder",
@@ -54,7 +55,7 @@ Gem::Specification.new do |s|
      "lib/a_la_chart/config.rb",
      "lib/a_la_chart/version.rb"
   ]
-  s.homepage = %q{http://github.com/coderoshi/a_la_chart}
+  s.homepage = %q{http://github.com/mobi/a_la_chart}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{a_la_chart}
